@@ -1,37 +1,26 @@
-import { useState, useEffect } from "react";
-
-const useDebounce = (value, delay) => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
+const styles = {
+  container: {
+    marginBottom: "24px",
+  },
+  input: {
+    width: "100%",
+    padding: "10px",
+    fontSize: "1rem",
+    borderRadius: "5px",
+    border: "1px solid #ccc",
+    boxSizing: "border-box",
+  },
 };
 
-const SearchBox = ({ setSearch }) => {
-  const [inputValue, setInputValue] = useState("");
-  const debouncedSearchTerm = useDebounce(inputValue, 500);
-
-  useEffect(() => {
-    setSearch(debouncedSearchTerm);
-  }, [debouncedSearchTerm, setSearch]);
-
+const SearchBox = ({ search, setSearch }) => {
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <div style={styles.container}>
       <input
         type="text"
         placeholder="Search by name..."
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        style={{ width: "100%", padding: "8px" }}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={styles.input}
       />
     </div>
   );

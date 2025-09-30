@@ -1,29 +1,32 @@
 import { Outlet, Link } from "react-router-dom";
 
-const styles = {
-  nav: {
-    padding: "10px 20px",
-    backgroundColor: "#f0f0f0",
-    borderBottom: "1px solid #ccc",
-  },
-  link: {
-    textDecoration: "none",
-    fontWeight: "bold",
-    color: "#007bff",
-  },
-};
-
 const Layout = () => {
+  const styles = {
+    backLink: {
+      display: "block",
+      padding: "20px 20px 0",
+      textDecoration: "none",
+      fontWeight: "bold",
+      color: "#007bff",
+      fontFamily: "sans-serif",
+      "@media (maxWidth: 768px)": {
+        display: "none",
+      },
+    },
+  };
+
+  const isMobile = window.innerWidth <= 768;
+  const backLinkStyle = {
+    ...styles.backLink,
+    ...(isMobile ? styles.backLink["@media (maxWidth: 768px)"] : {}),
+  };
+
   return (
     <div>
-      <nav style={styles.nav}>
-        <Link to="/" style={styles.link}>
-          &larr; Back to Home
-        </Link>
-      </nav>
-      <main>
-        <Outlet />
-      </main>
+      <Link to="/" style={backLinkStyle}>
+        &larr; Back to Home
+      </Link>
+      <Outlet />
     </div>
   );
 };

@@ -23,7 +23,7 @@ const createRandomUser = () => {
 
   return {
     id: faker.string.uuid(),
-    avatar: faker.image.avatar(),
+    avatar: faker.image.avatarGitHub(),
     first_name: faker.person.firstName(),
     last_name: faker.person.lastName(),
     age: faker.number.int({ min: 18, max: 70 }),

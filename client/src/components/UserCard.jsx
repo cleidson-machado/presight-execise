@@ -1,43 +1,64 @@
 const UserCard = ({ user }) => {
-  const hobbiesToShow = user.hobbies.slice(0, 2);
-  const remainingHobbies = user.hobbies.length - hobbiesToShow.length;
+  const styles = {
+    card: {
+      backgroundColor: "#f8fcff",
+      borderRadius: "12px",
+      padding: "24px",
+      boxShadow: "0 6px 16px rgba(0, 123, 255, 0.1)",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "space-between",
+      height: "100%",
+      boxSizing: "border-box",
+      fontFamily: "sans-serif",
+    },
+    avatar: {
+      width: "80px",
+      height: "80px",
+      borderRadius: "50%",
+      marginBottom: "16px",
+      border: "3px solid #ffffff",
+      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+    },
+    name: {
+      margin: 0,
+      fontSize: "1.2rem",
+      fontWeight: "600",
+      color: "#2c3e50",
+    },
+    details: {
+      margin: "4px 0 20px",
+      fontSize: "0.9rem",
+      color: "#7f8c8d",
+      minHeight: "36px",
+    },
+    actionButton: {
+      backgroundColor: "#007bff",
+      color: "white",
+      border: "none",
+      borderRadius: "5px",
+      padding: "10px 20px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      width: "80%",
+      transition: "background-color 0.2s",
+    },
+  };
 
   return (
-    <div
-      style={{
-        border: "1px solid #ccc",
-        padding: "16px",
-        borderRadius: "8px",
-        height: "100%",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <img
-          src={user.avatar}
-          alt="avatar"
-          style={{ width: "60px", height: "60px", borderRadius: "50%" }}
-        />
-        <div style={{ flex: 1 }}>
-          <h3 style={{ margin: 0 }}>
-            {user.first_name} {user.last_name}
-          </h3>
-          <p style={{ margin: "4px 0" }}>
-            {user.nationality}, {user.age} years old
-          </p>
-        </div>
+    <div style={styles.card}>
+      <div>
+        <img src={user.avatar} alt="avatar" style={styles.avatar} />
+        <h3 style={styles.name}>
+          {user.first_name} {user.last_name}
+        </h3>
+        <p style={styles.details}>
+          {user.nationality}, {user.age} years old
+        </p>
       </div>
-      <div style={{ marginTop: "12px" }}>
-        <strong>Hobbies:</strong>
-        {hobbiesToShow.length > 0 ? (
-          <span>
-            {" "}
-            {hobbiesToShow.join(", ")}
-            {remainingHobbies > 0 && ` (+${remainingHobbies})`}
-          </span>
-        ) : (
-          <span> None</span>
-        )}
-      </div>
+      <button style={styles.actionButton}>View Profile</button>
     </div>
   );
 };
