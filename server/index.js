@@ -2,9 +2,18 @@ import express from "express";
 import cors from "cors";
 import { faker } from "@faker-js/faker";
 import { Readable } from "stream";
+import { Worker } from "worker_threads";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
 const port = 3001;
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 
 const createRandomUser = () => {
   const hobbies = Array.from(
@@ -118,6 +127,25 @@ app.get("/api/stream-text", (req, res) => {
   textStream.pipe(res);
 });
 
-app.listen(port, () => {
+const worker = new Worker("./worker.js");
+
+worker.on("message", (result) => {
+  io.emit("task-result", result);
+});
+
+app.get("/api/process-request/:id", (req, res) => {
+  const taskId = req.params.id;
+  worker.postMessage({ id: taskId });
+  res.json({ status: "pending", id: taskId });
+});
+
+io.on("connection", (socket) => {
+  console.log("A user connected with socket id:", socket.id);
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+httpServer.listen(port, () => {
   console.log(`🚀 Server is running at http://localhost:${port}`);
 });

@@ -48,7 +48,7 @@ const styles = {
     cursor: "not-allowed",
   },
   contactInfo: {
-    marginTop: "60px", // Aumenta a separação dos botões
+    marginTop: "60px",
     paddingTop: "20px",
     borderTop: "1px solid #eee",
     width: "100%",
@@ -69,7 +69,6 @@ const styles = {
 };
 
 const HomePage = () => {
-  // Função para evitar que o link desabilitado funcione
   const handleDisabledClick = (e) => e.preventDefault();
 
   return (
@@ -84,11 +83,7 @@ const HomePage = () => {
           <Link to="/task/2" style={styles.linkButton}>
             Task 2: Streamed Text
           </Link>
-          <Link
-            to="#"
-            onClick={handleDisabledClick}
-            style={{ ...styles.linkButton, ...styles.disabledLinkButton }}
-          >
+          <Link to="/task/3" style={styles.linkButton}>
             Task 3: Web Worker & Sockets
           </Link>
         </div>
