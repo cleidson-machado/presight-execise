@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -16,9 +16,8 @@ const useDebounce = (value, delay) => {
   return debouncedValue;
 };
 
-
 const SearchBox = ({ setSearch }) => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const debouncedSearchTerm = useDebounce(inputValue, 500);
 
   useEffect(() => {
@@ -26,13 +25,13 @@ const SearchBox = ({ setSearch }) => {
   }, [debouncedSearchTerm, setSearch]);
 
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div style={{ marginBottom: "20px" }}>
       <input
         type="text"
-        placeholder="Buscar por nome..."
+        placeholder="Search by name..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
-        style={{ width: '100%', padding: '8px' }}
+        style={{ width: "100%", padding: "8px" }}
       />
     </div>
   );

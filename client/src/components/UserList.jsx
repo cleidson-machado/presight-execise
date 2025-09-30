@@ -1,7 +1,7 @@
-import { useRef } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useVirtualizer } from '@tanstack/react-virtual';
-import UserCard from './UserCard';
+import { useRef } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import UserCard from "./UserCard";
 
 const fetchUsers = async ({ pageParam = 1, queryKey }) => {
   const [_key, { search, filters }] = queryKey;
@@ -9,13 +9,13 @@ const fetchUsers = async ({ pageParam = 1, queryKey }) => {
     page: pageParam,
     limit: 20,
   });
-  if (search) params.append('search', search);
-  if (filters.nationality) params.append('nationality', filters.nationality);
-  if (filters.hobby) params.append('hobby', filters.hobby);
+  if (search) params.append("search", search);
+  if (filters.nationality) params.append("nationality", filters.nationality);
+  if (filters.hobby) params.append("hobby", filters.hobby);
 
   const res = await fetch(`/api/users?${params.toString()}`);
   if (!res.ok) {
-    throw new Error('A resposta da rede não foi ok');
+    throw new Error("Network response was not ok");
   }
   return res.json();
 };
@@ -29,10 +29,12 @@ const UserList = ({ search, filters }) => {
     isFetchingNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ['users', { search, filters }],
+    queryKey: ["users", { search, filters }],
     queryFn: fetchUsers,
     getNextPageParam: (lastPage) => {
-      return lastPage.currentPage < lastPage.totalPages ? lastPage.currentPage + 1 : undefined;
+      return lastPage.currentPage < lastPage.totalPages
+        ? lastPage.currentPage + 1
+        : undefined;
     },
   });
 
@@ -42,8 +44,7 @@ const UserList = ({ search, filters }) => {
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? allUsers.length + 1 : allUsers.length,
     getScrollElement: () => parentRef.current,
-    // AQUI ESTÁ A CORREÇÃO PRINCIPAL: itemSize -> estimateSize
-    estimateSize: () => 120, 
+    estimateSize: () => 120,
     overscan: 5,
   });
 
@@ -58,11 +59,11 @@ const UserList = ({ search, filters }) => {
   }
 
   if (isLoading) {
-    return <p>Carregando usuários...</p>;
+    return <p>Loading users...</p>;
   }
 
   if (error) {
-    return <p>Ocorreu um erro: {error.message}</p>;
+    return <p>An error occurred: {error.message}</p>;
   }
 
   return (
@@ -70,15 +71,15 @@ const UserList = ({ search, filters }) => {
       ref={parentRef}
       style={{
         height: `100vh`,
-        overflow: 'auto',
-        contain: 'strict',
+        overflow: "auto",
+        contain: "strict",
       }}
     >
       <div
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,
-          width: '100%',
-          position: 'relative',
+          width: "100%",
+          position: "relative",
         }}
       >
         {rowVirtualizer.getVirtualItems().map((virtualItem) => {
@@ -89,18 +90,24 @@ const UserList = ({ search, filters }) => {
             <div
               key={virtualItem.key}
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
-                width: '100%',
+                width: "100%",
                 height: `${virtualItem.size}px`,
                 transform: `translateY(${virtualItem.start}px)`,
-                padding: '8px'
+                padding: "8px",
               }}
             >
-              {isLoaderRow
-                ? hasNextPage ? 'Carregando mais...' : 'Nada mais para carregar'
-                : <UserCard user={user} />}
+              {isLoaderRow ? (
+                hasNextPage ? (
+                  "Loading more..."
+                ) : (
+                  "Nothing more to load"
+                )
+              ) : (
+                <UserCard user={user} />
+              )}
             </div>
           );
         })}

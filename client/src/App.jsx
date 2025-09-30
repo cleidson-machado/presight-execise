@@ -1,44 +1,19 @@
-import { useState } from 'react';
-import UserList from './components/UserList';
-import Filters from './components/Filters';
-import SearchBox from './components/SearchBox';
-
-const styles = {
-  appContainer: {
-    display: 'flex',
-    fontFamily: 'sans-serif',
-  },
-  sidebar: {
-    width: '250px',
-    padding: '20px',
-    borderRight: '1px solid #ccc',
-    height: '100vh',
-    overflowY: 'auto',
-  },
-  mainContent: {
-    flex: 1,
-    height: '100vh',
-  },
-};
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import Layout from "./components/Layout";
+import UserListPage from "./components/UserListPage";
+import StreamPage from "./components/StreamPage";
 
 function App() {
-  const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState({
-    nationality: null,
-    hobby: null,
-  });
-
   return (
-    <div style={styles.appContainer}>
-      <aside style={styles.sidebar}>
-        <h2>Filtros</h2>
-        <SearchBox setSearch={setSearch} />
-        <Filters setFilters={setFilters} />
-      </aside>
-      <main style={styles.mainContent}>
-        <UserList search={search} filters={filters} />
-      </main>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+
+      <Route path="/task" element={<Layout />}>
+        <Route path="1" element={<UserListPage />} />
+        <Route path="2" element={<StreamPage />} />
+      </Route>
+    </Routes>
   );
 }
 
